@@ -65,7 +65,7 @@ test("Me Api", async () => {
         Authorization: `Bearer ${responseLogin.token}`
     }})
     const responseMe = responseMeData.data;
-    expect(typeof responseMe.id).toBe("string");
+    expect(typeof responseMe.idUser).toBe("string");
     expect(responseMe.name).toBe(user.name);
     expect(responseMe.email).toBe(user.email);
 });

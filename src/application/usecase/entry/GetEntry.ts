@@ -8,8 +8,8 @@ export default class GetEntry implements UseCase {
     ) {}
 
     public async execute(input: Input): Promise<Output[]> {
-        const { id, name } = input;
-        const entrys = await this.repository.findByIdUser(id);
+        const { idUser, name } = input;
+        const entrys = await this.repository.findByIdUser(idUser);
         return entrys.reduce((output: Output[], entry: Entry) => {
             output.push({ 
                 id: entry.id, amount: entry.getAmount(),
@@ -22,8 +22,8 @@ export default class GetEntry implements UseCase {
 }
 
 type Input = {
-    id: string,
-    name: number,
+    idUser: string,
+    name: string,
 }
 
 type Output = {

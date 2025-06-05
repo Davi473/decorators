@@ -13,7 +13,7 @@ export default class Login implements UseCase {
         const user = await this.repository.findByEmail(email);
         if (!user) throw new Error("Email não existe");
         if (!user.verifyPassword(password)) throw new Error("Senha incorreta");
-        const token = generateToken({id: user.id, name: user.getName()});
+        const token = generateToken({idUser: user.id, name: user.getName()});
         return { token };
     }
 }

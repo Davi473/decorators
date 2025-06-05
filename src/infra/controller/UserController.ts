@@ -1,8 +1,8 @@
 import Register from '../../application/usecase/user/Register';
 import Login from '../../application/usecase/user/Login';
-import { Controller, Post, Put, Get } from '../decorators/method';
+import { Controller, Post, Put, Get, Body } from '../decorators/method';
 import UserMe from '../../application/usecase/user/UserMe';
-import { Auth } from '../decorators/auth';
+import { Auth, UserAuth } from '../decorators/auth';
 
 @Controller('/users')
 export class UserController {
@@ -14,24 +14,28 @@ export class UserController {
     ) {}
 
     @Put()
-    public async loginUser(req: any, res: any) {
-        const input = req.body;
+    public async loginUser(@Body() user: PutUser, res: any) {
+        const input = user;
         const output = await this.login.execute(input);
         return output;
     }
 
     @Post()
-    public async registerUser(req: any, res: any) {
-        const input = req.body;
+    public async registerUser(@Body() user: PostUser, res: any) {
+        const input = user;
         const output = await this.register.execute(input);
         return output;
     }
 
     @Auth()
     @Get("/me")
-    public async meUser(req: any, res: any) {
-        const input = req.user;
+    public async meUser(@UserAuth() user: GetMe, res: any) {
+        const input = user;
         const output = await this.userMe.execute(input);
         return output;
     }
 }
+
+type PutUser = { email: string, password: string };
+type PostUser = { name: string, email: string, password: string };
+type GetMe = { idUser: string, name: string };

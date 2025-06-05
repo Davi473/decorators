@@ -8,15 +8,15 @@ export default class Save implements UseCase {
     ) {}
 
     public async execute(input: Input): Promise<Output> {
-        const { id, amount, description, date, category } = input;
-        const entry = Entry.create(id, amount, description, date, category);
+        const { idUser, amount, description, date, category } = input;
+        const entry = Entry.create(idUser, amount, description, date, category);
         const idEntry = await this.repository.save(entry);
         return { id: idEntry };
     }
 }
 
 type Input = {
-    id: string,
+    idUser: string,
     amount: number,
     description: string,
     date: number,

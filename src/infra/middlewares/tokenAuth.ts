@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 
 const SECRET_KEY = 'segredo123';
 
-export function generateToken(payload: {id: string, name: string}): string {
+export function generateToken(payload: {idUser: string, name: string}): string {
   return jwt.sign(payload, SECRET_KEY, {expiresIn: "1d"});
 }
 

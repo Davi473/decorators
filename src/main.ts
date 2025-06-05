@@ -1,4 +1,4 @@
-import createServer from "./infra/express/express";
+import { HttpServerAdaptorExpress } from "./infra/express/express";
 
 import { UserController } from "./infra/controller/UserController";
 import Login from "./application/usecase/user/Login";
@@ -13,15 +13,15 @@ import GetEntry from "./application/usecase/entry/GetEntry";
 import DeleteEntry from "./application/usecase/entry/DeleteEntry";
 
 
+const HTTP = new HttpServerAdaptorExpress();
 const PORT = 3000;
-const server = createServer();
 
 const userRepository = new UserRepositoryMemory();
 const login = new Login(userRepository)
 const register = new Register(userRepository)
 const userMe = new UserMe(userRepository);
 const userController = new UserController(login, register, userMe);
-server.registerRoutes(userController);
+HTTP.registerRoutes(userController);
 
 const entryRepository = new EntryRepositoryMemory();
 const save = new Save(entryRepository);
@@ -29,8 +29,6 @@ const getIdEntry = new GetIdEntry(entryRepository);
 const getEntry = new GetEntry(entryRepository);
 const deleteEntry = new DeleteEntry(entryRepository);
 const entryController = new EntryController(save, getEntry, getIdEntry, deleteEntry);
-server.registerRoutes(entryController);
+HTTP.registerRoutes(entryController);
 
-server.listen(PORT);
-
-
+HTTP.listen(PORT);

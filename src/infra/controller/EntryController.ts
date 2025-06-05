@@ -2,8 +2,8 @@ import DeleteEntry from "../../application/usecase/entry/DeleteEntry";
 import GetEntry from "../../application/usecase/entry/GetEntry";
 import GetIdEntry from "../../application/usecase/entry/GetIdEntry";
 import Save from "../../application/usecase/entry/Save";
-import { Auth } from "../decorators/auth";
-import { Controller, Get, Post, Delete } from "../decorators/method";
+import { Auth, UserAuth } from "../decorators/auth";
+import { Controller, Get, Post, Delete, Body, Params } from "../decorators/method";
 
 @Controller("/entry")
 export default class EntryController {
@@ -16,33 +16,47 @@ export default class EntryController {
 
     @Auth()
     @Get()
-    public async get(req: any, res: any): Promise<any> {
-        const input = req.user;
+    public async get(@UserAuth() user: User): Promise<any> {
+        const input = user;
         const output = await this.getEntry.execute(input);
         return output;
     }
 
     @Auth()
     @Post()
-    public async post(req: any, res: any): Promise<any> {
-        const input = { ...req.user, ...req.body };
+    public async post(
+        @Body() entry: any,
+        @UserAuth() user: User
+    ): Promise<any> {
+        const input = { ...user, ...entry };
         const output = await this.save.execute(input);
         return output;
     }
 
     @Auth()
     @Get("/:id")
-    public async id(req: any, res: any): Promise<any> {
-        const input = { id: req.params.id, idUser: req.user.id };
+    public async id(
+        @Params() id: any,
+        @UserAuth() user : User
+    ): Promise<any> {
+        const input = { ...id, ...user };
         const output = await this.getIdEntry.execute(input);
         return output;
     }
 
     @Auth()
     @Delete()
-    public async delete(req: any, res: any): Promise<any> {
-        const input = { id: req.params.id, idUser: req.user.id };
+    public async delete(
+        @Params() id: any,
+        @UserAuth() user: User
+    ): Promise<any> {
+        const input = { ...id, ...user };
         const output = await this.deleteEntry.execute(input);
         return output;
     }
+}
+
+type User = {
+    idUser: string,
+    name: string
 }
