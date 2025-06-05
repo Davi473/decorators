@@ -4,6 +4,11 @@ import jwt from 'jsonwebtoken';
 
 const SECRET_KEY = 'segredo123';
 
+export function generateToken(payload: {id: string, name: string}): string {
+  return jwt.sign(payload, SECRET_KEY, {expiresIn: "1d"});
+}
+
+
 export function tokenAuth(req: Request, res: Response, next: NextFunction) {
     const authHeader = req.headers.authorization;
 
@@ -21,3 +26,4 @@ export function tokenAuth(req: Request, res: Response, next: NextFunction) {
         return res.status(401).json({ error: 'Token inválido' });
     }
 }
+
