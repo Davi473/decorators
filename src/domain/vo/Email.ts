@@ -1,4 +1,4 @@
-export default function Email() {
+export function Email() {
     return (target: any, key: string) => {
         const privateKey = Symbol(key);
         Object.defineProperty(target, key, {

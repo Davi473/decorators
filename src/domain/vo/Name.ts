@@ -1,4 +1,4 @@
-export default function Name() {
+export function Name(length: number) {
     return (target: any, key: string) => {
         const privateKey = Symbol(key);
         Object.defineProperty(target, key, {
@@ -6,7 +6,7 @@ export default function Name() {
                 return this[privateKey];
             },
             set(value: string) {
-                if (value.split(" ").length < 2) throw new Error("Erro")
+                if (value.split(" ").length < length) throw new Error("Erro")
                 this[privateKey] = value;
             }
         });

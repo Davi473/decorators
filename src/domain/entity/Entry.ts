@@ -1,48 +1,39 @@
 import { Amount } from "../vo/Amount";
 import { Category } from "../vo/Category";
-import { DateValidation } from "../vo/Date";
-import { Description } from "../vo/Description";
+import { Currency } from "../vo/Currency";
+import { Name } from "../vo/Name";
 
 export default class Entry {
-    @Amount()
-    private amount: number;
-    @Description()
-    private description: string;
-    @DateValidation()
-    private date: number;
+    @Name(1)
+    private name: string;
     @Category()
     private category: string;
-
+    @Amount()
+    private amount: number;
+    @Currency()
+    private currency: string;
     constructor(
-        readonly id: string, readonly idUser: string,
-        amount: number, description: string, 
-        date: number, category: string
+        readonly id: string,
+        name: string,
+        category: string,
+        amount: number,
+        currency: string,
     ) {
-        this.amount = amount;
-        this.description = description;
-        this.date = date;
+        this.name = name;
         this.category = category;
+        this.amount = amount;
+        this.currency = currency;
     }
-
-    public static create( 
-        idUser: string,
-        amount: number, description: string, 
-        date: number, category: string
-    ): Entry {
-        const id = crypto.randomUUID();
-        return new Entry(id, idUser, amount, description, date, category);
-    }
-
-    public getAmount(): number {
-        return this.amount;
-    }
-    public getDescription(): string {
-        return this.description;
-    }
-    public getDate(): number {
-        return this.date;
+    public getName(): string {
+        return this.name;
     }
     public getCategory(): string {
         return this.category;
+    }
+    public getAmount(): number {
+        return this.amount;
+    }
+    public getCurrency(): string {
+        return this.currency;
     }
 }

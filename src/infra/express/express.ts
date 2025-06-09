@@ -17,7 +17,6 @@ export class HttpServerAdaptorExpress implements HttpServer {
   public async registerRoutes(controllerInstance: any): Promise<void> {
     const constructor = controllerInstance.constructor;
     const prefix = constructor.prefix || "";
-    console.log(constructor);
     if (!constructor.routes) return;
     console.log(`\n------${prefix}------`)
     const routes = constructor.routes

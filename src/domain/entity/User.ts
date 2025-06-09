@@ -1,9 +1,9 @@
-import Name from "../vo/Name";
-import Email from "../vo/Email";
+import { Name } from "../vo/Name";
+import { Email } from "../vo/Email";
 import { randomBytes, pbkdf2Sync } from "crypto";
 
 export default class User {
-    @Name()
+    @Name(2)
     private name: string;
     @Email()
     private email: string;
