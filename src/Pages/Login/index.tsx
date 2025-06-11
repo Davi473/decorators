@@ -1,13 +1,34 @@
 import React, { useState } from "react";
 
-const Login: React.FC = () => {
+const Login: any = ({ onTrocarPagina }: any) => {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Aqui você pode adicionar a lógica de autenticação
-    alert(`Email: ${email}\nSenha: ${senha}`);
+    try {
+      const response = await fetch("https://legendary-couscous-55545xgp4w53vqp7-3000.app.github.dev/users", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, senha }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Erro ao fazer login");
+      }
+
+      const data = await response.json();
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+        onTrocarPagina("home");
+      } else {
+        alert("Login inválido!");
+      }
+    } catch (error) {
+      alert("Erro ao fazer login!");
+    }
   };
 
     React.useEffect(() => {
@@ -106,7 +127,10 @@ const Login: React.FC = () => {
         >
           Não tem conta? Registre-se{" "}
           <a
-            href="http://localhost:5173/register"
+            onClick={(e) => {
+              e.preventDefault();
+              onTrocarPagina("register");
+            }}
             style={{ color: "#4fa3ff", textDecoration: "underline", cursor: "pointer" }}
           >
             aqui

@@ -1,31 +1,11 @@
 import React from "react";
+import Table from "./components/Table";
+import Greenting from "./components/Greeting";
+import Navbar from "../../components/Navbar";
 
-const Navbar: React.FC = () => (
-  <nav
-    style={{
-      width: "50%",
-      minWidth: 320,
-      maxWidth: 600,
-      margin: "40px auto 0 auto",
-      padding: "16px 32px",
-      background: "#222",
-      color: "#fff",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
-      boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
-      borderRadius: 12,
-    }}
-  >
-    <div style={{ display: "flex", gap: "24px", alignItems: "center" }}>
-      <span style={{ fontWeight: "bold", fontSize: 18 }}>Home</span>
-      <span style={{ fontSize: 16 }}>Calendário</span>
-    </div>
-  </nav>
-);
-
-const Home: React.FC = () => {
-  const userName = "Usuário";
+const Home: any = ({ onTrocarPagina }: any) => {
+  const [loading, setLoading] = React.useState(false); // true
+  const [userName, setUserName] = React.useState<string>("Usuario");
 
   React.useEffect(() => {
     document.body.style.margin = "0";
@@ -38,119 +18,94 @@ const Home: React.FC = () => {
     };
   }, []);
 
+  React.useEffect(() => {
+    const verificarUsuario = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        // onTrocarPagina("login");
+        return;
+      }
+      try {
+        const response = await fetch("http://localhost:3000/userMe", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (!response.ok) {
+          throw new Error("Não autorizado");
+        }
+        const data = await response.json();
+        setUserName(data.name);
+        setLoading(false);
+      } catch (error) {
+        // onTrocarPagina("login");
+      }
+    };
+    verificarUsuario();
+  }, [onTrocarPagina]);
+
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background: "#181818",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "flex-start",
-      }}
-    >
-      <Navbar />
+    loading ? (
       <div
         style={{
-          width: "50%",
-          minWidth: 320,
-          maxWidth: 600,
-          margin: "32px auto 0 auto",
+          minHeight: "100vh",
+          background: "#181818",
           display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-start", // Alinha à esquerda, igual à navbar
+          alignItems: "center",
+          justifyContent: "center",
         }}
       >
-        <h1
+        <span
           style={{
             color: "#fff",
-            fontSize: 32,
-            marginBottom: 4,
-            textAlign: "left", // Alinha o texto à esquerda
+            fontSize: "4rem", // Aumente aqui o tamanho das bolinhas
+            letterSpacing: "0.2em",
+            fontFamily: "monospace",
           }}
+          className="dot-typing"
         >
-          Bom dia,
-        </h1>
-        <h2
-          style={{
-            color: "#fff",
-            fontSize: 28,
-            marginBottom: 10,
-            textAlign: "left",
-            fontWeight: "normal",
-          }}
-        >
-          Fulano
-        </h2>
-      </div>
-      {/* Lista de tarefas */}
-      <div
-        style={{
-          width: "50%",
-          minWidth: 320,
-          maxWidth: 600,
-          margin: "24px auto 0 auto",
-          display: "flex",
-          flexDirection: "column",
-          gap: "16px",
-        }}
-      >
-        <span style={{ fontWeight: "bold", fontSize: 18, marginBottom: 8 }}>
-          Gastos
+          <span className="dot">.</span>
+          <span className="dot">.</span>
+          <span className="dot">.</span>
         </span>
-        {/* Card Gasto 1 */}
-        <div
-          style={{
-            background: "#222",
-            color: "#fff",
-            borderRadius: 12,
-            boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
-            padding: "16px 32px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            gap: "12px",
-          }}
-        >
-          <span style={{ fontSize: 16 }}>Mercado</span>
-          <span style={{ fontWeight: "bold", color: "#ff7675" }}>R$ 150,00</span>
-        </div>
-        {/* Card Gasto 2 */}
-        <div
-          style={{
-            background: "#222",
-            color: "#fff",
-            borderRadius: 12,
-            boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
-            padding: "16px 32px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            gap: "12px",
-          }}
-        >
-          <span style={{ fontSize: 16 }}>Internet</span>
-          <span style={{ fontWeight: "bold", color: "#ff7675" }}>R$ 99,90</span>
-        </div>
-        {/* Card Gasto 3 */}
-        <div
-          style={{
-            background: "#222",
-            color: "#fff",
-            borderRadius: 12,
-            boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
-            padding: "16px 32px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            gap: "12px",
-          }}
-        >
-          <span style={{ fontSize: 16 }}>Transporte</span>
-          <span style={{ fontWeight: "bold", color: "#ff7675" }}>R$ 45,00</span>
-        </div>
+        <style>
+          {`
+            .dot-typing .dot {
+              opacity: 0.2;
+              animation: blink 1.4s infinite both;
+            }
+            .dot-typing .dot:nth-child(2) {
+              animation-delay: 0.2s;
+            }
+            .dot-typing .dot:nth-child(3) {
+              animation-delay: 0.4s;
+            }
+            @keyframes blink {
+              0%, 80%, 100% { opacity: 0.2; }
+              40% { opacity: 1; }
+            }
+          `}
+        </style>
       </div>
-    </div>
+    ) : (
+      <div
+        style={{
+          minHeight: "100vh",
+          background: "#181818",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "flex-start",
+        }}
+      >
+        {/* Navbar */}
+        <Navbar onTrocarPagina={onTrocarPagina} paginaAtual="home" />
+        {/* Saudação */}
+        <Greenting user={{ name: userName }} />
+        {/* Lista de tarefas */}
+        <Table />
+      </div>
+    )
   );
 };
 

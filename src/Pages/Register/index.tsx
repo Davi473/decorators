@@ -1,14 +1,34 @@
 import React, { useState } from "react";
 
-const Register: React.FC = () => {
+const Register: any = ({ onTrocarPagina }: any) => {
   const [email, setEmail] = useState("");
   const [nome, setNome] = useState("");
   const [senha, setSenha] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Aqui você pode adicionar a lógica de registro
-    alert(`Nome: ${nome}\nEmail: ${email}\nSenha: ${senha}`);
+    try {
+      const response = await fetch("http://localhost:3000/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, name: nome, password: senha }),
+      });
+      
+      if (!response.ok) {
+        throw new Error("Erro ao registrar");
+      }
+
+      const data = await response.json();
+      if (data.id) {
+        onTrocarPagina("login");
+      } else {
+        alert("Erro ao registrar!");
+      }
+    } catch (error) {
+      alert("Erro ao registrar!");
+    }
   };
 
   React.useEffect(() => {
@@ -123,7 +143,10 @@ const Register: React.FC = () => {
         >
           Já tem conta? Faça login{" "}
           <a
-            href="http://localhost:5173/login"
+            onClick={(e) => {
+              e.preventDefault();
+              onTrocarPagina("login");
+            }}
             style={{ color: "#4fa3ff", textDecoration: "underline", cursor: "pointer" }}
           >
             aqui
