@@ -1,63 +1,54 @@
+# React + TypeScript + Vite
 
----
-##  Login
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-### POST `/users`
-Cria um novo usuário.
+Currently, two official plugins are available:
 
-**Body:**
-```json
-{
-  "name": "string",
-  "email": "string",
-  "password": "string"
-}
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+
+## Expanding the ESLint configuration
+
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+
+```js
+export default tseslint.config({
+  extends: [
+    // Remove ...tseslint.configs.recommended and replace with this
+    ...tseslint.configs.recommendedTypeChecked,
+    // Alternatively, use this for stricter rules
+    ...tseslint.configs.strictTypeChecked,
+    // Optionally, add this for stylistic rules
+    ...tseslint.configs.stylisticTypeChecked,
+  ],
+  languageOptions: {
+    // other options...
+    parserOptions: {
+      project: ['./tsconfig.node.json', './tsconfig.app.json'],
+      tsconfigRootDir: import.meta.dirname,
+    },
+  },
+})
 ```
 
-**Resposta:** 
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-```json
-{ 
-    "id": "string"
-}
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
+
+export default tseslint.config({
+  plugins: {
+    // Add the react-x and react-dom plugins
+    'react-x': reactX,
+    'react-dom': reactDom,
+  },
+  rules: {
+    // other rules...
+    // Enable its recommended typescript rules
+    ...reactX.configs['recommended-typescript'].rules,
+    ...reactDom.configs.recommended.rules,
+  },
+})
 ```
-
----
-### PUT `/users`
-Autentica o usuário e retorna tokens JWT.
-
-**Body:**
-```json
-{
-  "email": "string",
-  "password": "string"
-}
-```
-
-**Resposta:**
-```json
-{
-  "token": "jwt_access_token",
-}
-```
-
----
-## 👤 Usuário
-
-### GET `/users/me`
-Retorna os dados do usuário logado.
-
-**Headers:**
-```
-Authorization: Bearer <access_token>
-```
-
-**Resposta:**
-```json
-{
-  "id": "string",
-  "name": "string",
-  "email": "string"
-}
-```
-
