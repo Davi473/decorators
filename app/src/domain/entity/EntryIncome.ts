@@ -1,20 +1,16 @@
 import Entry from "./Entry";
-import { DateValidation } from "../vo/DateValidation";
 
 export default class EntryIncome extends Entry {
-    @DateValidation()
-    private date: string
     constructor(
         id: string,
         idUser: string,
-        name: string,
+        description: string,
         category: string,
         amount: number,
         currency: string,
         date: string
     ) {
-        super(id, idUser, name, category, amount, currency);
-        this.date = date;
+        super(id, idUser, description, category, amount, currency, date);
     }
 
     static create(
@@ -36,15 +32,10 @@ export default class EntryIncome extends Entry {
         );
     }
 
-    public getDate(): string {
-        return this.date;
-    }
-
     public json(): object {
         const json = super.json();
         return {
             ...json,
-            date: this.date
         };
     }
 }

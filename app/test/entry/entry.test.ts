@@ -8,7 +8,7 @@ test("entry", async () => {
     const saveEntry = new Save(repository);
     const input = {
         idUser: "user1",
-        name: "Salary",
+        description: "Salary",
         category: "income",
         amount: 5000,
         currency: "USD",
@@ -18,7 +18,7 @@ test("entry", async () => {
     const outputGet = await getEntry.execute({
         idUser: "user1"
     });
-    expect(outputGet[0].name).toBe("Salary");
+    expect(outputGet[0].description).toBe("Salary");
     expect(outputGet[0].category).toBe("income");
     expect(outputGet[0].amount).toBe(5000);
     expect(outputGet[0].currency).toBe("USD");
@@ -38,7 +38,7 @@ test("entry api", async () => {
     const token = loginResponse.data.token;
     // Save entry
     const entry = {
-        name: "Casa",
+        description: "Casa",
         category: "expense",
         amount: 100,
         currency: "USD",
@@ -57,7 +57,7 @@ test("entry api", async () => {
         }       
     });
     console.log(responseGet.data);
-    expect(responseGet.data[0].name).toBe("Casa");
+    expect(responseGet.data[0].description).toBe("Casa");
     expect(responseGet.data[0].category).toBe("expense");
     expect(responseGet.data[0].amount).toBe(100);
     expect(responseGet.data[0].currency).toBe("USD");

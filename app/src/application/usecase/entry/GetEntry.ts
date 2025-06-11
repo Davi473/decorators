@@ -1,4 +1,3 @@
-// dar pegar todos dos entries pelo id do user pelo usecase GetEntry.ts
 import Entry from "../../../domain/entity/Entry";
 import EntryRepository from "../../../infra/repository/EntryRepository";
 import UseCase from "../UseCase";

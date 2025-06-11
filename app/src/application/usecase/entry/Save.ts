@@ -12,16 +12,17 @@ export class Save implements UseCase {
     if (isInputExpense(input)) {
         entry = EntryExpense.create(
             input.idUser,
-            input.name,
+            input.description,
             input.category,
             input.amount,
             input.currency,
             input.dayToPay,
+            input.paid
         );
     } else {
         entry = EntryIncome.create(
             input.idUser,
-            input.name,
+            input.description,
             input.category,
             input.amount,
             input.currency,
@@ -35,17 +36,16 @@ export class Save implements UseCase {
 
 type InputExpense = {
   idUser: string;
-  name: string;
+  description: string;
   category: string;
   amount: number;
   currency: string;
   dayToPay: string;
-  amountPaid?: number;
-  paidDay?: string;
+  paid: boolean;
 };
 type InputIncome = {
   idUser: string;
-  name: string;
+  description: string;
   category: string;
   amount: number;
   currency: string;

@@ -4,29 +4,28 @@ import { Currency } from "../vo/Currency";
 import { Name } from "../vo/Name";
 
 export default class Entry {
-    @Name(1)
-    private name: string;
-    @Category()
+    private description: string;
     private category: string;
-    @Amount()
     private amount: number;
-    @Currency()
     private currency: string;
+    private date: string;
     constructor(
         readonly id: string,
         readonly idUser: string,
-        name: string,
+        description: string,
         category: string,
         amount: number,
         currency: string,
+        date: string
     ) {
-        this.name = name;
+        this.description = description;
         this.category = category;
         this.amount = amount;
         this.currency = currency;
+        this.date = date;
     }
-    public getName(): string {
-        return this.name;
+    public getDescription(): string {
+        return this.description;
     }
     public getCategory(): string {
         return this.category;
@@ -37,14 +36,18 @@ export default class Entry {
     public getCurrency(): string {
         return this.currency;
     }
+    public getDate(): string {
+        return this.date;
+    }
     public json(): object {
         return {
             id: this.id,
             idUser: this.idUser,
-            name: this.name,
+            description: this.description,
             category: this.category,
             amount: this.amount,
-            currency: this.currency
+            currency: this.currency,
+            date: this.date
         };
     }
 }

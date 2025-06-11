@@ -1,16 +1,15 @@
-import Entry from "../../../domain/entity/Entry";
+import MonthEntry from "../../../domain/entity/MonthEntry";
 import EntryRepository from "../../../infra/repository/EntryRepository";
 import UseCase from "../UseCase";
 
-export class GetByIdEntry implements UseCase {
+export class GetMonthEntry implements UseCase {
   constructor(private readonly entryRepository: EntryRepository) {}
 
   async execute(input: Input): Promise<Output> {
     const entries = await this.entryRepository.findByIdUser(input.idUser);
-    return entries.reduce((acc: Output, entry: Entry) => {
-      acc.push(entry.json());
-      return acc;
-    }, []);
+    const month = new MonthEntry(entries);
+    month.calculate();
+    return { month: month.getMonth()};
   }
 }
 
@@ -18,4 +17,4 @@ type Input = {
   idUser: string;
 };
 
-type Output = any[]
+type Output = any
