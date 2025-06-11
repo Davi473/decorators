@@ -106,7 +106,7 @@ const Login: React.FC = () => {
         >
           Não tem conta? Registre-se{" "}
           <a
-            href="https://ubiquitous-meme-rwwrwp4vrvx29jq-5173.app.github.dev/register"
+            href="http://localhost:5173/register"
             style={{ color: "#4fa3ff", textDecoration: "underline", cursor: "pointer" }}
           >
             aqui

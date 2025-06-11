@@ -123,7 +123,7 @@ const Register: React.FC = () => {
         >
           Já tem conta? Faça login{" "}
           <a
-            href="https://ubiquitous-meme-rwwrwp4vrvx29jq-5173.app.github.dev/login"
+            href="http://localhost:5173/login"
             style={{ color: "#4fa3ff", textDecoration: "underline", cursor: "pointer" }}
           >
             aqui

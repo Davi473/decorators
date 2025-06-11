@@ -21,7 +21,6 @@ const Navbar: React.FC = () => (
       <span style={{ fontWeight: "bold", fontSize: 18 }}>Home</span>
       <span style={{ fontSize: 16 }}>Calendário</span>
     </div>
-    <span style={{ fontWeight: "bold", fontSize: 20 }}>Decorators App</span>
   </nav>
 );
 
@@ -76,16 +75,80 @@ const Home: React.FC = () => {
           style={{
             color: "#fff",
             fontSize: 28,
-            marginBottom: 16,
+            marginBottom: 10,
             textAlign: "left",
             fontWeight: "normal",
           }}
         >
           Fulano
         </h2>
-        <p style={{ color: "#bbb", fontSize: 18, textAlign: "left" }}>
-          Bem-vindo à sua página inicial.
-        </p>
+      </div>
+      {/* Lista de tarefas */}
+      <div
+        style={{
+          width: "50%",
+          minWidth: 320,
+          maxWidth: 600,
+          margin: "24px auto 0 auto",
+          display: "flex",
+          flexDirection: "column",
+          gap: "16px",
+        }}
+      >
+        <span style={{ fontWeight: "bold", fontSize: 18, marginBottom: 8 }}>
+          Gastos
+        </span>
+        {/* Card Gasto 1 */}
+        <div
+          style={{
+            background: "#222",
+            color: "#fff",
+            borderRadius: 12,
+            boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+            padding: "16px 32px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "12px",
+          }}
+        >
+          <span style={{ fontSize: 16 }}>Mercado</span>
+          <span style={{ fontWeight: "bold", color: "#ff7675" }}>R$ 150,00</span>
+        </div>
+        {/* Card Gasto 2 */}
+        <div
+          style={{
+            background: "#222",
+            color: "#fff",
+            borderRadius: 12,
+            boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+            padding: "16px 32px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "12px",
+          }}
+        >
+          <span style={{ fontSize: 16 }}>Internet</span>
+          <span style={{ fontWeight: "bold", color: "#ff7675" }}>R$ 99,90</span>
+        </div>
+        {/* Card Gasto 3 */}
+        <div
+          style={{
+            background: "#222",
+            color: "#fff",
+            borderRadius: 12,
+            boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+            padding: "16px 32px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "12px",
+          }}
+        >
+          <span style={{ fontSize: 16 }}>Transporte</span>
+          <span style={{ fontWeight: "bold", color: "#ff7675" }}>R$ 45,00</span>
+        </div>
       </div>
     </div>
   );
