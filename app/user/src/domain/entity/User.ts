@@ -1,3 +1,7 @@
+import Name from "../vo/Name";
+import Currency from "../vo/Currency";
+import Email from "../vo/Email";
+
 export default class User {
     private name: string;
     private email: string;
@@ -6,8 +10,11 @@ export default class User {
 
     constructor(
         readonly id: string,
+        @Name()
         name: string,
+        @Email()
         email: string,
+        @Currency()
         currency: string,
         hashAndSalt: string
     ) {

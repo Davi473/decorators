@@ -1,7 +1,5 @@
 import { HttpServerAdaptorExpress } from "./infra/http/HttpServer";
 
-
-
 import { EntryController } from "./infra/controller/EntryController";
 import { EntryRepositoryMemory } from "./infra/repository/EntryRepository";
 import { GetByIdEntry } from "./application/usecase/entry/GetByIdEntry";
@@ -12,13 +10,6 @@ import { GetByMonthAndYearEntry } from "./application/usecase/entry/GetByMonthAn
 
 const HTTP = new HttpServerAdaptorExpress();
 const PORT = 3000;
-
-const userRepository = new UserRepositoryMemory();
-const login = new Login(userRepository)
-const register = new Register(userRepository)
-const userMe = new UserMe(userRepository);
-const userController = new UserController(login, register, userMe);
-HTTP.registerRoutes(userController);
 
 const entryRepository = new EntryRepositoryMemory();
 const saveEntry = new Save(entryRepository);

@@ -1,3 +1,4 @@
+import User from "../../application/repository/UserRepository";
 import User from "../../domain/entity/User";
 
 export class UserRepositoryMemory implements UserRepository {
