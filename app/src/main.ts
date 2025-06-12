@@ -25,8 +25,8 @@ const userController = new UserController(login, register, userMe);
 HTTP.registerRoutes(userController);
 
 const entryRepository = new EntryRepositoryMemory();
-const getByIdEntry = new GetByIdEntry(entryRepository);
 const saveEntry = new Save(entryRepository);
+const getByIdEntry = new GetByIdEntry(entryRepository);
 const getEntry = new GetEntry(entryRepository);
 const getMonthEntry = new GetMonthEntry(entryRepository);
 const getByMonthAndYearEntry = new GetByMonthAndYearEntry(entryRepository);

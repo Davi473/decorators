@@ -7,16 +7,19 @@ export default class User {
     private name: string;
     @Email()
     private email: string;
+    private currency: string;
     private hashAndSaltArray: string[];
 
     constructor(
         readonly id: string,
         name: string,
         email: string,
+        currency: string,
         hashAndSalt: string
     ) {
         this.name = name;
         this.email = email;
+        this.currency = currency;
         this.hashAndSaltArray = hashAndSalt.split(".");
     }
 
@@ -26,7 +29,7 @@ export default class User {
         const id = crypto.randomUUID();
         const salt = randomBytes(16).toString('hex'); 
         const hash = pbkdf2Sync(password, salt, 100_000, 64, 'sha512').toString('hex');
-        return new User(id, name, email, `${salt}.${hash}`);
+        return new User(id, name, email, "USD", `${salt}.${hash}`);
     }
 
     public verifyPassword(password: string): boolean {
@@ -42,5 +45,13 @@ export default class User {
 
     public getEmail(): string {
         return this.email;
+    }
+
+    public getCurrency(): string {
+        return this.currency
+    }
+
+    public setCurrency(currency: string): void {
+        this.currency = currency;
     }
 }

@@ -56,9 +56,36 @@ test("entry api", async () => {
             Authorization: `Bearer ${token}`
         }       
     });
-    console.log(responseGet.data);
     expect(responseGet.data[0].description).toBe("Casa");
     expect(responseGet.data[0].category).toBe("expense");
     expect(responseGet.data[0].amount).toBe(100);
     expect(responseGet.data[0].currency).toBe("USD");
+});
+
+test("entry test", async () => {
+    const user = {
+        name: "Test User",
+        email: `${Math.random()}@gmail.com`,
+        password: "123"
+    };
+    await axios.post("http://localhost:3000/users", user);
+    const loginResponse: any = await axios.put("http://localhost:3000/users", user);
+    const token = loginResponse.data.token;
+    const entry = {
+        description: "Casa",
+        category: "expense",
+        amount: 100,
+        currency: "USD",
+        date: "2023-10-01"
+    };
+    await axios.post("http://localhost:3000/entry", entry, {headers: {Authorization: `Bearer ${token}`}});
+    entry.currency = "BRL"
+    await axios.post("http://localhost:3000/entry", entry, {headers: {Authorization: `Bearer ${token}`}});
+    entry.currency = "EUR"
+    await axios.post("http://localhost:3000/entry", entry, {headers: {Authorization: `Bearer ${token}`}});
+    entry.currency = "EUR";
+    entry.date = "2023-11-01"
+    await axios.post("http://localhost:3000/entry", entry, {headers: {Authorization: `Bearer ${token}`}});
+    const valor = await axios.get("http://localhost:3000/entry/month", {headers: {Authorization: `Bearer ${token}`}});
+    console.log(valor.data)
 });

@@ -1,9 +1,12 @@
+import ConvertCurrencyService from "../../infra/service/ConvertCurrencyService";
 import Entry from "./Entry";
 
 export default class MonthEntry {
     private month: { [key: string]: Month } = {};
+
     constructor (private entrys: Entry[]) {}
-    public calculate(): void {
+
+    public async calculate(convertCurrency: ConvertCurrencyService, currencyUser: string): Promise<void> {
         this.entrys.forEach(entry => {
             const date = new Date(entry.getDate());
             const month = String(date.getMonth() + 1).padStart(2, '0');;
@@ -16,10 +19,11 @@ export default class MonthEntry {
                     valueIncome: 0,
                 };
             }
+            const convert = convertCurrency.getConvet(currencyUser, entry.getCurrency());
             if (entry.getCategory() === 'expense') {
-                this.month[`${month}/${year}`].valueExpenses += entry.getAmount();
+                this.month[`${month}/${year}`].valueExpenses += (entry.getAmount() * convert);
             } else if (entry.getCategory() === 'income') {
-                this.month[`${month}/${year}`].valueIncome += entry.getAmount();
+                this.month[`${month}/${year}`].valueIncome += (entry.getAmount() * convert);
             }
         })
     }

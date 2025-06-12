@@ -10,7 +10,7 @@ export default class UserMe implements UseCase {
         const { idUser, name } = input;
         const user = await this.repository.findByIdAndName(idUser, name)
         if (!user) throw new Error("Usuario não existe");
-        return { idUser, name, email: user.getEmail() };
+        return { idUser, name, email: user.getEmail(), idCurrency: user.getCurrency() };
     }
 }
 
@@ -22,5 +22,6 @@ type Input = {
 type Output = {
     idUser: string,
     name: string,
-    email: string
+    email: string,
+    idCurrency: string
 }

@@ -39,6 +39,13 @@ export class EntryController {
         return output;
     }
 
+    @Get("/month/admin/:idUser/:currencyId")
+    public async getMountAdmin(@Params() date: any) {
+        const input = date;
+        const output = await this.getMonthEntry.execute(input);
+        return output;
+    }
+
     @Auth()
     @Get("/month")
     public async getMount(@UserAuth() user: any) {
