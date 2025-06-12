@@ -6,12 +6,14 @@ export default interface HttpServer {
 }
 
 import express from 'express';
+import cors from 'cors';
 
 export class HttpServerAdaptorExpress implements HttpServer {
   private app: any = express();
 
   constructor () {
     this.app.use(express.json());
+    this.app.use(cors());
   }
 
   public async registerRoutes(controllerInstance: any): Promise<void> {

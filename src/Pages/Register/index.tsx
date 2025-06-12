@@ -15,7 +15,7 @@ const Register: any = ({ onTrocarPagina }: any) => {
         },
         body: JSON.stringify({ email, name: nome, password: senha }),
       });
-      
+      console.log(response);
       if (!response.ok) {
         throw new Error("Erro ao registrar");
       }

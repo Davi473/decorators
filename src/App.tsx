@@ -7,16 +7,16 @@ import Kanban from './Pages/Kanban';
 
 function App() {
 
-  const [paginaAtual, setPaginaAtual] = useState('home');
+  const [paginaAtual, setPaginaAtual] = useState('login');
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem('token');
-  //   if (token) {
-  //     setPaginaAtual('home');
-  //   } else {
-  //     setPaginaAtual('login');
-  //   }
-  // }, []);
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      setPaginaAtual('home');
+    } else {
+      setPaginaAtual('login');
+    }
+  }, []);
 
   const renderPagina = () => {
     switch (paginaAtual) {

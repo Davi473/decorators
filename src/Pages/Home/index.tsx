@@ -22,11 +22,11 @@ const Home: any = ({ onTrocarPagina }: any) => {
     const verificarUsuario = async () => {
       const token = localStorage.getItem("token");
       if (!token) {
-        // onTrocarPagina("login");
+        onTrocarPagina("login");
         return;
       }
       try {
-        const response = await fetch("http://localhost:3000/userMe", {
+        const response = await fetch("http://localhost:3000/users/me", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -38,7 +38,7 @@ const Home: any = ({ onTrocarPagina }: any) => {
         setUserName(data.name);
         setLoading(false);
       } catch (error) {
-        // onTrocarPagina("login");
+        onTrocarPagina("login");
       }
     };
     verificarUsuario();
@@ -58,7 +58,7 @@ const Home: any = ({ onTrocarPagina }: any) => {
         <span
           style={{
             color: "#fff",
-            fontSize: "4rem", // Aumente aqui o tamanho das bolinhas
+            fontSize: "4rem",
             letterSpacing: "0.2em",
             fontFamily: "monospace",
           }}

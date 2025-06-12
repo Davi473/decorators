@@ -7,14 +7,14 @@ const Login: any = ({ onTrocarPagina }: any) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch("https://legendary-couscous-55545xgp4w53vqp7-3000.app.github.dev/users", {
+      const response = await fetch("http://localhost:3000/users", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, senha }),
+        body: JSON.stringify({ email, password: senha }),
       });
-
+      
       if (!response.ok) {
         throw new Error("Erro ao fazer login");
       }
