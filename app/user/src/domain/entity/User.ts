@@ -1,26 +1,21 @@
-import Name from "../vo/Name";
-import Currency from "../vo/Currency";
-import Email from "../vo/Email";
+import { randomBytes, pbkdf2Sync } from 'crypto';
 
 export default class User {
-    private name: string;
-    private email: string;
-    private currency: string;
+    private userName: string;
+    private userEmail: string;
+    private userCurrency: string;
     private hashAndSaltArray: string[];
 
     constructor(
         readonly id: string,
-        @Name()
-        name: string,
-        @Email()
-        email: string,
-        @Currency()
-        currency: string,
+        userName: string,
+        userEmail: string,
+        userCurrency: string,
         hashAndSalt: string
     ) {
-        this.name = name;
-        this.email = email;
-        this.currency = currency;
+        this.userName = userName;
+        this.userEmail = userEmail;
+        this.userCurrency = userCurrency;
         this.hashAndSaltArray = hashAndSalt.split(".");
     }
 
@@ -41,18 +36,18 @@ export default class User {
     }
 
     public getName(): string {
-        return this.name;
+        return this.userName;
     }
 
     public getEmail(): string {
-        return this.email;
+        return this.userEmail;
     }
 
     public getCurrency(): string {
-        return this.currency
+        return this.userCurrency;
     }
 
     public setCurrency(currency: string): void {
-        this.currency = currency;
+        this.userCurrency = currency;
     }
 }

@@ -1,11 +1,10 @@
-import User from "../../application/repository/UserRepository";
+import UserRepository from "../../application/repository/UserRepository";
 import User from "../../domain/entity/User";
 
 export class UserRepositoryMemory implements UserRepository {
     private memory: User[] = [];
-    public async save(user: User): Promise<string> {
+    public async save(user: User): Promise<void> {
         this.memory.push(user);
-        return user.id;
     }
     public async findByEmail(email: string): Promise<User> {
         const [user] = this.memory.filter(user => user.getEmail() === email);

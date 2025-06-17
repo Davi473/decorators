@@ -1,7 +1,6 @@
-import UserRepository from "../../../infra/repository/UserRepository";
-import User from "../../../domain/entity/User";
-import UseCase from "../UseCase";
 import { generateToken } from "../../../infra/middlewares/tokenAuth";
+import UserRepository from "../../repository/UserRepository";
+import UseCase from "../UseCase";
 
 export default class Login implements UseCase {
     constructor(
@@ -9,18 +8,18 @@ export default class Login implements UseCase {
     ) {}
 
     public async execute(input: Input): Promise<Output> {
-        const { email, password } = input;
-        const user = await this.repository.findByEmail(email);
+        const { userEmail, userPassword } = input;
+        const user = await this.repository.findByEmail(userEmail);
         if (!user) throw new Error("Email não existe");
-        if (!user.verifyPassword(password)) throw new Error("Senha incorreta");
+        if (!user.verifyPassword(userPassword)) throw new Error("Senha incorreta");
         const token = generateToken({idUser: user.id, name: user.getName(), currencyUser: user.getCurrency()});
         return { token };
     }
 }
 
 type Input = {
-    email: string,
-    password: string
+    userEmail: string,
+    userPassword: string
 }
 
 type Output = {

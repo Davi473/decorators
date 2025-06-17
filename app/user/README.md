@@ -8,9 +8,9 @@ Cria um novo usuário.
 **Body:**
 ```json
 {
-  "name": "string",
-  "email": "string",
-  "password": "string"
+  "userName": "string",
+  "userEmail": "string",
+  "userPassword": "string"
 }
 ```
 
@@ -18,7 +18,7 @@ Cria um novo usuário.
 
 ```json
 { 
-    "id": "string"
+    "message": "User registered successfully"
 }
 ```
 
@@ -29,8 +29,8 @@ Autentica o usuário e retorna tokens JWT.
 **Body:**
 ```json
 {
-  "email": "string",
-  "password": "string"
+  "userEmail": "string",
+  "userPassword": "string"
 }
 ```
 
@@ -55,9 +55,9 @@ Authorization: Bearer <access_token>
 **Resposta:**
 ```json
 {
-  "id": "string",
-  "name": "string",
-  "email": "string"
+  "userId": "string",
+  "userName": "string",
+  "userEmail": "string"
 }
 ```
 

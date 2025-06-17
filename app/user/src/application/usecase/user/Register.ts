@@ -1,5 +1,5 @@
-import UserRepository from "../../../infra/repository/UserRepository";
 import User from "../../../domain/entity/User";
+import UserRepository from "../../repository/UserRepository";
 import UseCase from "../UseCase";
 
 export default class Register implements UseCase {
@@ -8,21 +8,21 @@ export default class Register implements UseCase {
     ) {}
 
     public async execute(input: Input): Promise<Output> {
-        const { name, email, password } = input;
-        if (await this.repository.findByEmail(email))
+        const { userName, userEmail, userPassword } = input;
+        if (await this.repository.findByEmail(userEmail))
             throw new Error("Email ja esta sendo usado");
-        const user = User.create(name, email, password);
-        const id = await this.repository.save(user);
-        return { id };
+        const user = User.create(userName, userEmail, userPassword);
+        await this.repository.save(user);
+        return { message: "User registered successfully" };
     }
 }
 
 type Input = {
-    name: string,
-    email: string,
-    password: string
+    userName: string,
+    userEmail: string,
+    userPassword: string
 }
 
 type Output = {
-    id: string
+    message: string
 }

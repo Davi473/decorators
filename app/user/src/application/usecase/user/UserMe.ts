@@ -1,4 +1,4 @@
-import UserRepository from "../../../infra/repository/UserRepository";
+import UserRepository from "../../repository/UserRepository";
 import UseCase from "../UseCase";
 
 export default class UserMe implements UseCase {
