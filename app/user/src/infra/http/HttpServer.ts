@@ -40,8 +40,8 @@ export class HttpServerAdaptorExpress implements HttpServer {
             if (parametro === "userAuth") request.push(req.user);
           })
         request.reverse();
-        request.push(req);
         request.push(res);
+        request.push(req);
         const result = await handler(...request);
         if (result) res.json(result);
       } catch (e: any) {

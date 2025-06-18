@@ -17,14 +17,14 @@ export class UserController {
     public async loginUser(@Body() user: PutUser, res: any) {
         const input = user;
         const output = await this.login.execute(input);
-        return output;
+        res.status(201).json(output);
     }
 
     @Post()
     public async registerUser(@Body() user: PostUser, res: any) {
         const input = user;
         const output = await this.register.execute(input);
-        return output;
+        res.status(201).json(output);
     }
 
     @Auth()

@@ -4,7 +4,7 @@ export default class User {
     private userName: string;
     private userEmail: string;
     private userCurrency: string;
-    private hashAndSaltArray: string[];
+    private hashAndSaltArray: string;
 
     constructor(
         readonly id: string,
@@ -16,7 +16,7 @@ export default class User {
         this.userName = userName;
         this.userEmail = userEmail;
         this.userCurrency = userCurrency;
-        this.hashAndSaltArray = hashAndSalt.split(".");
+        this.hashAndSaltArray = hashAndSalt;
     }
 
     public static create(
@@ -29,14 +29,19 @@ export default class User {
     }
 
     public verifyPassword(password: string): boolean {
-        const salt = this.hashAndSaltArray[0]
-        const hash = this.hashAndSaltArray[1]
+        const parts = this.hashAndSaltArray.split('.');
+        const salt = parts[0];
+        const hash = parts[1];
         const newHash = pbkdf2Sync(password, salt, 100_000, 64, 'sha512').toString('hex');
         return newHash === hash;
     }
 
     public getName(): string {
         return this.userName;
+    }
+
+    public getHash(): string {
+        return this.hashAndSaltArray;
     }
 
     public getEmail(): string {
