@@ -1,36 +1,31 @@
-export default class Transaction {
+export default class Asset {
     constructor(
         readonly id: string,
-        readonly walletId: string,
-        readonly type: 'BUY' | 'SELL',
         readonly name: string,
-        readonly category: string,
         readonly currency: string,
+        readonly category: string,
         readonly average: number,
         readonly quantity: number,
-        readonly createdAt: Date,
     ) {}
 
     public static create(
-        walletId: string,
-        type: 'BUY' | 'SELL',
         name: string,
-        category: string,
         currency: string,
+        category: string,
         average: number,
         quantity: number,
-        createdAt: Date = new Date(),
     ) {
-        return new Transaction(
+        return new Asset(
             crypto.randomUUID(),
-            walletId,
-            type,
             name,
-            category,
             currency,
+            category,
             average,
             quantity,
-            createdAt,
         );
     }   
+
+    public profitabilityInPercentage(currentValue: number): number {
+        return ((currentValue - this.average) / this.average) * 100;
+    }
 }

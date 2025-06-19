@@ -1,4 +1,5 @@
 import Transaction from "./Transaction";
+import Asset from "./Asset";
 
 export default class Wallet {
     private balance: number = 0;
@@ -15,9 +16,17 @@ export default class Wallet {
         this.currency = currency;
     }
 
-    public calculateBalance(transactions: Transaction[]): void {
-        this.balance = transactions.reduce(
-            (acc, transaction) => acc + transaction.amount, 0);
+    public static create(
+        userId: string, name: string, currency: string
+    ): Wallet {
+        const id = crypto.randomUUID();
+        const createdAt = new Date();
+        return new Wallet(id, userId, name, currency, createdAt);
+    }
+
+    public calculateBalance(assets: Asset[]): void {
+        this.balance = assets.reduce(
+            (acc, asset) => acc + (asset.average * asset.quantity), 0);
     }
 
     public getBalance(): number {

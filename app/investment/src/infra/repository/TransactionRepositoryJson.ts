@@ -35,7 +35,7 @@ export class TransactionRepositoryJson implements TransactionRepository {
      */
     private async writeTransactions(transaction: Transaction): Promise<void> {
         const transactions = await this.readTransactions();
-        // transactions.push({id: transaction.id, userId: transaction.userId, walletId: transaction.walletId, amount: transaction.amount, createdAt: transaction.createdAt});
+        transactions.push({id: transaction.id, walletId: transaction.walletId, type: transaction.type, name: transaction.name, category: transaction.category, currency: transaction.currency, average: transaction.average,  quantity: transaction.quantity, createdAt: transaction.createdAt});
         await fs.writeFile(this.DATA_PATH, JSON.stringify(transactions, null, 2), "utf-8");
     }
 
@@ -47,32 +47,9 @@ export class TransactionRepositoryJson implements TransactionRepository {
         await this.writeTransactions(transaction);
     }
 
-    /**
-     * Busca uma transação pelo id do usuário.
-     * @param idUser ID do usuário.
-     * @returns Promise com a transação encontrada ou undefined.
-     */
-    public async findByIdUser(idUser: string): Promise<Transaction | undefined> {
+    public async findByIdWallet(idWallet: string): Promise<Transaction[] | undefined> {
         const transactions = await this.readTransactions();
-        const transaction = transactions.find(t => t.userId === idUser);
-        // return transaction ? new Transaction(transaction.id, transaction.userId, transaction.walletId, transaction.amount, transaction.createdAt) : undefined;
-    }
-
-    /**
-     * Busca uma transação pelo id e id do usuário.
-     * @param id ID da transação.
-     * @param idUser ID do usuário.
-     * @returns Promise com a transação encontrada ou undefined.
-     */
-    public async findByIdAndIdUser(id: string, idUser: string): Promise<Transaction | undefined> {
-        const transactions = await this.readTransactions();
-        const transaction = transactions.find(t => t.id === id && t.userId === idUser);
-        // return transaction ? new Transaction(transaction.id, transaction.userId, transaction.walletId, transaction.amount, transaction.createdAt) : undefined;
-    }
-
-    public async findByIdAndIdWallet(id: string, idWallet: string): Promise<Transaction | undefined> {
-        const transactions = await this.readTransactions();
-        const transaction = transactions.find(t => t.id === id && t.walletId === idWallet);
-        // return transaction ? new Transaction(transaction.id, transaction.userId, transaction.walletId, transaction.amount, transaction.createdAt) : undefined;
+        const transaction = transactions.filter(t => t.walletId === idWallet);
+        return transaction ? transaction.map(t => t = new Transaction(t.id, t.walletId, t.type, t.name, t.category, t.currency, t.average, t.quantity, t.createdAt)) : undefined;
     }
 }

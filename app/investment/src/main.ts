@@ -1,19 +1,15 @@
-import { UserController } from "./infra/controller/UserController";
-import Login from "./application/usecase/user/Login";
-import { UserRepositoryMemory } from "./infra/repository/UserRepositoryMemory";
-import { UserRepositoryJson } from "./infra/repository/WalletRepositoryJson";
-import Register from "./application/usecase/user/Register";
-import UserMe from "./application/usecase/user/UserMe";
 import { HttpServerAdaptorExpress } from "./infra/http/HttpServer";
+import { WalletRepositoryJson } from "./infra/repository/WalletRepositoryJson";
+import { WalletController } from "./infra/controller/WalletController";
+import CreateWallet from "./application/usecase/wallet/CreateWallet";
 
+const PORT = 3001;
 const HTTP = new HttpServerAdaptorExpress();
-const PORT = 3000;
 
-const userRepository = new UserRepositoryJson();
-const login = new Login(userRepository)
-const register = new Register(userRepository)
-const userMe = new UserMe(userRepository);
-const userController = new UserController(login, register, userMe);
-HTTP.registerRoutes(userController);
+const walletRepository = new WalletRepositoryJson();
+const walletController = new WalletController(
+  new CreateWallet(walletRepository)
+);
+HTTP.registerRoutes(walletController);
 
 HTTP.listen(PORT);

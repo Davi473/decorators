@@ -52,10 +52,10 @@ export class WalletRepositoryJson implements WalletRepository {
      * @param idUser ID do usuário.
      * @returns Promise com a wallet encontrada ou undefined.
      */
-    public async findByIdUser(idUser: string): Promise<Wallet | undefined> {
+    public async findByIdUser(idUser: string): Promise<Wallet[] | undefined> {
         const wallets = await this.readWallets();
-        const wallet = wallets.find(w => w.userId === idUser);
-        return wallet ? new Wallet(wallet.id, wallet.userId, wallet.name, wallet.currency, wallet.createdAt) : undefined;
+        const wallet = wallets.filter(w => w.userId === idUser);
+        return wallet ? wallet.map(w => w = new Wallet(w.id, w.userId, w.name, w.currency, w.createdAt)) : undefined;
     }
 
     /**
