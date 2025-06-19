@@ -12,7 +12,7 @@ const Login: any = ({ onTrocarPagina }: any) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password: senha }),
+        body: JSON.stringify({ userEmail: email, userPassword: senha }),
       });
       
       if (!response.ok) {

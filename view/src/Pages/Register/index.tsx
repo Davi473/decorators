@@ -13,15 +13,14 @@ const Register: any = ({ onTrocarPagina }: any) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, name: nome, password: senha }),
+        body: JSON.stringify({ userEmail: email, userName: nome, userPassword: senha }),
       });
-      console.log(response);
       if (!response.ok) {
         throw new Error("Erro ao registrar");
       }
 
       const data = await response.json();
-      if (data.id) {
+      if (data.message === "User registered successfully") {
         onTrocarPagina("login");
       } else {
         alert("Erro ao registrar!");

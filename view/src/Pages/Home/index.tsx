@@ -35,6 +35,7 @@ const Home: any = ({ onTrocarPagina }: any) => {
           throw new Error("Não autorizado");
         }
         const data = await response.json();
+        console.log(data);
         setUserName(data.name);
         setLoading(false);
       } catch (error) {
@@ -101,7 +102,7 @@ const Home: any = ({ onTrocarPagina }: any) => {
         {/* Navbar */}
         <Navbar onTrocarPagina={onTrocarPagina} paginaAtual="home" />
         {/* Saudação */}
-        <Greenting user={{ name: userName }} />
+        <Greenting name={userName} />
         {/* Lista de tarefas */}
         <Table />
       </div>

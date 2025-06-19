@@ -1,4 +1,4 @@
-import Repository from "../../application/repository/UserRepository";
+import UserRepository from "../../application/repository/UserRepository";
 import fs from "fs/promises";
 import path from "path";
 import User from "../../domain/entity/User";
@@ -16,13 +16,10 @@ export class UserRepositoryJson implements UserRepository {
      * Lê todos os usuários do arquivo JSON.
      * @returns Promise com a lista de usuários.
      */
-    private async readUsers(): Promise<User[]> {
+    private async readUsers(): Promise<any[]> {
         try {
             const data = await fs.readFile(this.DATA_PATH, "utf-8");
-            return JSON.parse(data).map((user: any) => {
-                // Converte o objeto JSON para uma instância de User.
-                return new User(user.id, user.userName, user.email, user.currency, user.hash);
-            });
+            return JSON.parse(data);
         } catch (err) {
             if ((err as NodeJS.ErrnoException).code === "ENOENT") {
                 // Retorna lista vazia se o arquivo não existir.
@@ -36,7 +33,9 @@ export class UserRepositoryJson implements UserRepository {
      * Escreve a lista de usuários no arquivo JSON.
      * @param users Lista de usuários a ser salva.
      */
-    private async writeUsers(users: User[]): Promise<void> {
+    private async writeUsers(user: User): Promise<void> {
+        const users = await this.readUsers();
+        users.push({name: user.getName(), email: user.getEmail(), id: user.id, currency: user.getCurrency(), hash: user.getHash()});
         await fs.writeFile(this.DATA_PATH, JSON.stringify(users, null, 2), "utf-8");
     }
 
@@ -45,9 +44,7 @@ export class UserRepositoryJson implements UserRepository {
      * @param user Usuário a ser salvo.
      */
     public async save(user: User): Promise<void> {
-        const users = await this.readUsers();
-        users.push({userName: user.getName(), email: user.getEmail(), id: user.id, currency: user.getCurrency(), hash: user.getHash()});
-        await this.writeUsers(users);
+        await this.writeUsers(user);
     }
 
     /**
@@ -55,9 +52,10 @@ export class UserRepositoryJson implements UserRepository {
      * @param email E-mail do usuário.
      * @returns Promise com o usuário encontrado ou undefined.
      */
-    public async findByEmail(email: string): Promise<User> {
+    public async findByEmail(email: string): Promise<User | undefined> {
         const users = await this.readUsers();
-        return users.find(u => u.getEmail() === email);
+        const user = users.find(u => u.email === email);
+        return user ? new User(user.id, user.name, user.email, user.currency, user.hash) : undefined;
     }
 
     /**
@@ -66,8 +64,9 @@ export class UserRepositoryJson implements UserRepository {
      * @param name Nome do usuário.
      * @returns Promise com o usuário encontrado ou undefined.
      */
-    public async findByIdAndName(id: string, name: string): Promise<User> {
+    public async findByIdAndName(id: string, name: string): Promise<User | undefined> {
         const users = await this.readUsers();
-        return users.find(u => u.id === id && u.getName() === name);
+        const user = users.find(u => u.id === id && u.name === name);
+        return user ? new User(user.id, user.name, user.email, user.currency, user.hash) : undefined;
     }
 }

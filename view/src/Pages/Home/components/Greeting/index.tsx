@@ -10,9 +10,8 @@ function saudacaoPorHorario(): string {
   }
 }
 
-const Greenting: any = (user: {name: string}) => {
+const Greenting: any = (user: any) => {
     const userName: string = user.name;
-
     return (
         <div
         style={{
@@ -25,7 +24,7 @@ const Greenting: any = (user: {name: string}) => {
             alignItems: "flex-start", // Alinha à esquerda, igual à navbar
         }}
         >
-            <h1
+            <small
                 style={{
                 color: "#fff",
                 fontSize: 32,
@@ -34,8 +33,8 @@ const Greenting: any = (user: {name: string}) => {
                 }}
             >
                 {saudacaoPorHorario()},
-            </h1>
-            <h2
+            </small>
+            <small
                 style={{
                 color: "#fff",
                 fontSize: 28,
@@ -45,7 +44,7 @@ const Greenting: any = (user: {name: string}) => {
                 }}
             >
                 {userName}
-            </h2>
+            </small>
         </div>
     );
 };
