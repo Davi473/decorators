@@ -1,4 +1,3 @@
-import Transaction from "./Transaction";
 import Asset from "./Asset";
 
 export default class Wallet {
